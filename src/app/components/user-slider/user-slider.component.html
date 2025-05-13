@@ -5,12 +5,15 @@
       *ngIf="ready"
       [style.width.px]="(containerWidth / usersPerView) * users.length"
       [style.transform]="'translateX(-' + (currentIndex * (containerWidth / usersPerView)) + 'px)'"
+      aria-live="polite"
+      [attr.aria-label]="'Showing users ' + (currentIndex + 1) + ' to ' + Math.min(currentIndex + usersPerView, users.length)"
     >
       <div
         class="user-card"
         *ngFor="let user of users; let i = index"
         [style.width.px]="containerWidth / usersPerView"
         [attr.aria-hidden]="!isVisible(i)"
+        [id]="'user-card-' + i"
       >
         <h3>{{ user.name }}</h3>
         <p>{{ user.email }}</p>
@@ -23,6 +26,7 @@
       class="nav-btn"
       (click)="prevUser()"
       *ngIf="currentIndex !== 0"
+      #prevButton
     >
       Previous
     </button>
@@ -31,6 +35,7 @@
       class="nav-btn"
       (click)="nextUser()"
       [disabled]="currentIndex >= users.length - usersPerView"
+      #nextButton
     >
       Next
     </button>
