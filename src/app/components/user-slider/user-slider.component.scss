@@ -43,9 +43,15 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
+
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 }
 
-.nav-btn:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+@media (max-width: 768px) {
+  .user-card {
+    padding: 1rem;
+  }
 }
