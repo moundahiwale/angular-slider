@@ -18,7 +18,10 @@ export class UserSliderComponent implements AfterViewInit, OnDestroy {
   users = [
     { name: 'Alice Johnson', email: 'alice@example.com' },
     { name: 'Bob Smith', email: 'bob@example.com' },
-    { name: 'Charlie Rose', email: 'charlie@example.com' }
+    { name: 'Charlie Rose', email: 'charlie@example.com' },
+    { name: 'Sarah Johson', email: 'sarah@example.com' },
+    { name: 'Lee Parker', email: 'parker@example.com' },
+    { name: 'Joke', email: 'joke@example.com' }
   ];
 
   currentIndex = 0;
@@ -28,9 +31,13 @@ export class UserSliderComponent implements AfterViewInit, OnDestroy {
   @ViewChild('viewport') viewportRef!: ElementRef<HTMLDivElement>;
   private resizeObserver!: ResizeObserver;
 
-  
+  get usersPerView(): number {
+    return Math.min(this.users.length, 3);
+  }
+
   constructor(private _cdr: ChangeDetectorRef) {  
   }
+
   ngAfterViewInit(): void {
     this.resizeObserver = new ResizeObserver(() => {
       this.updateContainerWidth();
@@ -48,7 +55,7 @@ export class UserSliderComponent implements AfterViewInit, OnDestroy {
   }
 
   nextUser(): void {
-    if (this.currentIndex < this.users.length - 1) {
+    if (this.currentIndex < this.users.length - this.usersPerView) {
       this.currentIndex++;
     }
   }
