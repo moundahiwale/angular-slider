@@ -41,16 +41,21 @@ export class UserSliderComponent implements AfterViewInit, OnDestroy {
     this.checkMobile();
   }
 
+  isVisible(index: number): boolean {
+    const endIndex = this.currentIndex + this.usersPerView;
+    return index >= this.currentIndex && index < endIndex;
+  }
+
   @HostListener('window:resize')
   checkMobile() {
     const wasMobile = this.isMobile;
     this.isMobile = window.innerWidth <= 768;
-    
+
     // Reset index when any breakpoint change occurs
     if (this.isMobile !== wasMobile) {
       this.currentIndex = 0;
       this.updateContainerWidth();
-      this._cdr.detectChanges();
+      this._cdr.markForCheck(); // Use markForCheck for better performance
     }
   }
 
@@ -58,7 +63,7 @@ export class UserSliderComponent implements AfterViewInit, OnDestroy {
     this.resizeObserver = new ResizeObserver(() => {
       this.updateContainerWidth();
     });
-    
+
     this.resizeObserver.observe(this.viewportRef.nativeElement);
     this.updateContainerWidth();
     this._cdr.detectChanges();
