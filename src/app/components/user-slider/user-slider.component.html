@@ -1,8 +1,4 @@
 <div class="slider-container">
-  <button class="nav-btn" (click)="prevUser()" *ngIf="currentIndex !== 0">
-    Previous
-  </button>
-
   <div class="user-view" #viewport>
     <div
       class="slider"
@@ -21,11 +17,21 @@
     </div>
   </div>
 
-  <button
-    class="nav-btn"
-    (click)="nextUser()"
-    [disabled]="currentIndex >= users.length - 1"
-  >
-    Next
-  </button>
+  <div class="button-row">
+    <button
+      class="nav-btn"
+      (click)="prevUser()"
+      *ngIf="currentIndex !== 0"
+    >
+      Previous
+    </button>
+
+    <button
+      class="nav-btn"
+      (click)="nextUser()"
+      [disabled]="currentIndex >= users.length - 1"
+    >
+      Next
+    </button>
+  </div>
 </div>

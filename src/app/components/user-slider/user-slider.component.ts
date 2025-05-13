@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+  ChangeDetectorRef,
+} from '@angular/core';
 
 @Component({
   selector: 'app-user-slider',
@@ -7,7 +14,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
   styleUrls: ['./user-slider.component.scss'],
   imports: [CommonModule]
 })
-export class UserSliderComponent {
+export class UserSliderComponent implements AfterViewInit, OnDestroy {
   users = [
     { name: 'Alice Johnson', email: 'alice@example.com' },
     { name: 'Bob Smith', email: 'bob@example.com' },
@@ -19,13 +26,25 @@ export class UserSliderComponent {
   ready = false;
 
   @ViewChild('viewport') viewportRef!: ElementRef<HTMLDivElement>;
+  private resizeObserver!: ResizeObserver;
 
+  
+  constructor(private _cdr: ChangeDetectorRef) {  
+  }
   ngAfterViewInit(): void {
-    // Delay to ensure layout is rendered
-    setTimeout(() => {
-      this.containerWidth = this.viewportRef.nativeElement.offsetWidth;
-      this.ready = true;
+    this.resizeObserver = new ResizeObserver(() => {
+      this.updateContainerWidth();
     });
+    
+    this.resizeObserver.observe(this.viewportRef.nativeElement);
+    this.updateContainerWidth();
+    this._cdr.detectChanges();
+  }
+
+  updateContainerWidth(): void {
+    const el = this.viewportRef.nativeElement;
+    this.containerWidth = el.offsetWidth;
+    this.ready = true;
   }
 
   nextUser(): void {
@@ -37,6 +56,12 @@ export class UserSliderComponent {
   prevUser(): void {
     if (this.currentIndex > 0) {
       this.currentIndex--;
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
     }
   }
 }
