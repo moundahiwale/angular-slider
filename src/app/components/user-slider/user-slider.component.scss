@@ -1,0 +1,45 @@
+.slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  margin: 2rem 0;
+}
+
+.user-view {
+  overflow: hidden;
+  width: 300px;
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.user-card {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  background: #f4f4f4;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  height: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.nav-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
